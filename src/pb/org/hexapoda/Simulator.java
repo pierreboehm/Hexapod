@@ -25,6 +25,10 @@ public class Simulator {
         startLooper(frame);
     }
 
+    public static int getRandomNumberInRange(int min, int max) {
+        return (int)(Math.random() * ((max - min) + 1)) + min;
+    }
+
     private static void startLooper(JFrame frame) {
         final Timer timer = new Timer(DELAY_MILLISECONDS, null);
 
