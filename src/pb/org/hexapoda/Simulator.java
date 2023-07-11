@@ -1,9 +1,13 @@
 package pb.org.hexapoda;
 
+import pb.org.hexapoda.model.Hexapod;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Simulator {
 
@@ -16,9 +20,26 @@ public class Simulator {
 
     public static void setupEnvironment() {
         JFrame frame = new JFrame("Artifical environment");
+        DrawPanel drawPanel = new DrawPanel();
 
-        frame.add(new DrawPanel());
+        frame.add(drawPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // not implemented yet
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                drawPanel.updateKeyEvent(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // not implemented yet
+            }
+        });
         frame.pack();
         frame.setVisible(true);
 
@@ -48,19 +69,32 @@ public class Simulator {
 
     private static class DrawPanel extends JPanel {
 
+        private Hexapod hexapod;
+
         public DrawPanel() {
             setBackground(BACKGROUND_COLOR);
+            setupHexapod();
         }
 
         @Override
         protected void paintComponent(final Graphics graphics) {
             // Calling to clear the artifacts!
             super.paintComponent(graphics);
+
+            hexapod.draw(graphics);
         }
 
         @Override
         public Dimension getPreferredSize() {
             return new Dimension(DIMENSION_XY, DIMENSION_XY);
+        }
+
+        public void updateKeyEvent(KeyEvent keyEvent) {
+            hexapod.update(keyEvent);
+        }
+
+        private void setupHexapod() {
+            hexapod = new Hexapod(new Point(DIMENSION_XY / 2, DIMENSION_XY / 2));
         }
     }
 }
