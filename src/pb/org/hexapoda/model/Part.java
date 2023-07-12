@@ -3,6 +3,7 @@ package pb.org.hexapoda.model;
 import pb.org.hexapoda.Simulator;
 
 import java.awt.*;
+import java.util.AbstractMap;
 
 public class Part {
 
@@ -14,6 +15,8 @@ public class Part {
     private State state;
     private Point center;
     private float rotation;
+    private int width = 10;
+    private int height = 10;
 
     public Part(Point position) {
         setup(position, State.PASSIVE);
@@ -29,7 +32,7 @@ public class Part {
 
     public void draw(Graphics graphics) {
         graphics.setColor(state == State.PASSIVE ? Color.LIGHT_GRAY : Color.DARK_GRAY);
-        graphics.fillOval(center.x, center.y, 10, 10);
+        graphics.fillOval(center.x, center.y, width, height);
     }
 
     public State getState() {
@@ -57,6 +60,15 @@ public class Part {
         this.rotation = rotation;
     }
 
+    public void setDimension(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public AbstractMap.SimpleEntry<Integer, Integer> getDimension() {
+        return new AbstractMap.SimpleEntry<Integer, Integer>(width, height);
+    }
+
     public void turnLeft() {
         rotation = (rotation + 15f) % 360f;
         //System.out.println("left rotation: " + rotation);
@@ -68,9 +80,8 @@ public class Part {
     }
 
     public void move() {
-        center.x += 10 * Math.sin(Math.toRadians(rotation));
-        center.y += 10 * Math.cos(Math.toRadians(rotation));
-        //System.out.println("new position: " + center.x + ", " + center.y);
+        center.x += width * Math.sin(Math.toRadians(rotation));
+        center.y += height * Math.cos(Math.toRadians(rotation));
     }
 
     public void move(Part part) {
