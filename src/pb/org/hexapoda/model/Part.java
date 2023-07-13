@@ -7,40 +7,41 @@ import java.util.AbstractMap;
 
 public class Part {
 
-    public enum State {
-        PASSIVE,
-        ACTIVE
+    public enum Type {
+        HEAD,
+        BODY,
+        TAIL
     }
 
-    private State state;
+    private Type type;
     private Point center;
     private float rotation;
     private int width = 10;
     private int height = 10;
 
-    public Part(Point position) {
-        setup(position, State.PASSIVE);
+    public Part(Point position, Type type) {
+        setup(position, type);
     }
 
-    public Part(Point position, State state) {
-        setup(position, state);
-    }
-
-    public Part(Point position, State state, float rotation) {
-        setup(position, state, rotation);
+    public Part(Point position, Type type, float rotation) {
+        setup(position, type, rotation);
     }
 
     public void draw(Graphics graphics) {
-        graphics.setColor(state == State.PASSIVE ? Color.LIGHT_GRAY : Color.DARK_GRAY);
+        graphics.setColor(type == Type.HEAD ? Color.DARK_GRAY : Color.LIGHT_GRAY);
         graphics.fillOval(center.x, center.y, width, height);
+
+        if (type == Type.BODY) {
+            // draw dropPoints
+        }
     }
 
-    public State getState() {
-        return state;
+    public Type getType() {
+        return type;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Point getCenter() {
@@ -94,15 +95,15 @@ public class Part {
         rotation = partRotation;
     }
 
-    private void setup(Point position, State initialState) {
+    private void setup(Point position, Type initialType) {
         center = new Point(position);
-        state = initialState;
+        type = initialType;
         rotation = (float) Simulator.getRandomNumberInRange(0, 359);
     }
 
-    private void setup(Point position, State initialState, float initialRotation) {
+    private void setup(Point position, Type initialType, float initialRotation) {
         center = new Point(position);
-        state = initialState;
+        type = initialType;
 
         int direction = Simulator.getRandomNumberInRange(0, 1);
         if (direction == 1) {

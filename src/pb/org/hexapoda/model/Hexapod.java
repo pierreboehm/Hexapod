@@ -19,11 +19,11 @@ public class Hexapod {
     }
 
     public void update(KeyEvent keyEvent) {
-        Part activePart = partList.get(0);
+        Part headPart = partList.get(0);
 
-        updateHeadRotation(activePart, keyEvent.getKeyCode());
+        updateHeadRotation(headPart, keyEvent.getKeyCode());
         updateBodyPosition();
-        updateHeadPosition(activePart);
+        updateHeadPosition(headPart);
     }
 
     private void updateHeadRotation(Part headPart, int keyCode) {
@@ -58,24 +58,24 @@ public class Hexapod {
     }
 
     private void setup(Point position) {
-        Part activePart = new Part(position, Part.State.ACTIVE);
-        activePart.setDimension(10, 10);
-        partList.add(activePart);
+        Part headPart = new Part(position, Part.Type.HEAD);
+        headPart.setDimension(10, 10);
+        partList.add(headPart);
 
-        Point nextPosition = new Point();
-        nextPosition.x = activePart.getCenter().x - (int)(10 * Math.sin(Math.toRadians(activePart.getRotation()/* - 180 % 360*/)));
-        nextPosition.y = activePart.getCenter().y - (int)(10 * Math.cos(Math.toRadians(activePart.getRotation()/* - 180 % 360*/)));
+        Point bodyPosition = new Point();
+        bodyPosition.x = headPart.getCenter().x - (int)(10 * Math.sin(Math.toRadians(headPart.getRotation()/* - 180 % 360*/)));
+        bodyPosition.y = headPart.getCenter().y - (int)(10 * Math.cos(Math.toRadians(headPart.getRotation()/* - 180 % 360*/)));
 
-        Part nextPart1 = new Part(nextPosition, Part.State.PASSIVE, activePart.getRotation());
-        nextPart1.setDimension(10, 10);
-        partList.add(nextPart1);
+        Part bodyPart = new Part(bodyPosition, Part.Type.BODY, headPart.getRotation());
+        bodyPart.setDimension(10, 10);
+        partList.add(bodyPart);
 
-        nextPosition = new Point();
-        nextPosition.x = nextPart1.getCenter().x - (int)(10 * Math.sin(Math.toRadians(nextPart1.getRotation()/* - 180 % 360*/)));
-        nextPosition.y = nextPart1.getCenter().y - (int)(10 * Math.cos(Math.toRadians(nextPart1.getRotation()/* - 180 % 360*/)));
+        Point tailPosition = new Point();
+        tailPosition.x = bodyPart.getCenter().x - (int)(10 * Math.sin(Math.toRadians(bodyPart.getRotation()/* - 180 % 360*/)));
+        tailPosition.y = bodyPart.getCenter().y - (int)(10 * Math.cos(Math.toRadians(bodyPart.getRotation()/* - 180 % 360*/)));
 
-        Part nextPart2 = new Part(nextPosition, Part.State.PASSIVE, nextPart1.getRotation());
-        nextPart2.setDimension(8, 8);
-        partList.add(nextPart2);
+        Part tailPart = new Part(tailPosition, Part.Type.TAIL, bodyPart.getRotation());
+        tailPart.setDimension(8, 8);
+        partList.add(tailPart);
     }
 }
