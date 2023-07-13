@@ -15,6 +15,7 @@ public class Part {
 
     private Type type;
     private Point center;
+    private Walker walker = null;
     private float rotation;
     private int width = 10;
     private int height = 10;
@@ -32,7 +33,7 @@ public class Part {
         graphics.fillOval(center.x, center.y, width, height);
 
         if (type == Type.BODY) {
-            // draw dropPoints
+            drawWalker(graphics);
         }
     }
 
@@ -111,5 +112,19 @@ public class Part {
         } else {
             rotation = initialRotation - 15f % 360f;
         }
+    }
+
+    private void setupWalker() {
+        walker = new Walker(center, rotation,width / 2);
+    }
+
+    private void drawWalker(Graphics graphics) {
+        if (walker == null) {
+            setupWalker();
+        }
+
+        walker.setCenter(center);
+        walker.setRotation(rotation);
+        walker.draw(graphics);
     }
 }
