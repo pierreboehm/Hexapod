@@ -59,7 +59,7 @@ public class Hexapod {
 
     private void setup(Point position) {
         Part headPart = new Part(position, Part.Type.HEAD);
-        headPart.setDimension(10, 10);
+        headPart.setDimension(9, 9);
         partList.add(headPart);
 
         Point bodyPosition = new Point();

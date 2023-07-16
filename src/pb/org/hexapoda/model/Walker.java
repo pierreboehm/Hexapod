@@ -16,6 +16,47 @@ public class Walker {
 
     public void draw(Graphics graphics) {
         // TODO:
+        float _rotation = (rotation - 90f) % 360f;
+        int _distance = distance;
+        int x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
+        int y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
+
+        graphics.setColor(Color.WHITE);
+        graphics.fillOval(x, y, 3, 3);
+
+        _rotation = (rotation + 90f) % 360f;
+        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
+        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
+
+        graphics.fillOval(x, y, 3, 3);
+
+        // --
+
+        _rotation = (rotation - 45f) % 360f;
+        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
+        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
+
+        graphics.fillOval(x, y, 3, 3);
+
+        _rotation = (rotation + 45f) % 360f;
+        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
+        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
+
+        graphics.fillOval(x, y, 3, 3);
+
+        // --
+
+        _rotation = (rotation - 135f) % 360f;
+        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
+        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
+
+        graphics.fillOval(x, y, 3, 3);
+
+        _rotation = (rotation + 135f) % 360f;
+        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
+        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
+
+        graphics.fillOval(x, y, 3, 3);
     }
 
     public void setCenter(Point center) {
