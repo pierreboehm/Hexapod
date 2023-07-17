@@ -1,62 +1,24 @@
 package pb.org.hexapoda.model;
 
 import java.awt.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
 
 public class Walker {
 
-    private Point center;
-    private int distance;
-    private float rotation = 0f;
+    private final ArrayList<AbstractMap.SimpleEntry> dockPoints = new ArrayList<>();
+    private final Point center;
+    private float rotation;
 
-    public Walker(Point initialCenter, float rotation, int distance) {
+    public Walker(Point initialCenter, float initialRotation) {
         center = new Point(initialCenter);
-        this.rotation = rotation;
-        this.distance = distance;
+        rotation = initialRotation;
+
+        setupDockPoints();
     }
 
     public void draw(Graphics graphics) {
-        // TODO:
-        float _rotation = (rotation - 90f) % 360f;
-        int _distance = distance;
-        int x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
-        int y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
-
-        graphics.setColor(Color.WHITE);
-        graphics.fillOval(x, y, 3, 3);
-
-        _rotation = (rotation + 90f) % 360f;
-        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
-        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
-
-        graphics.fillOval(x, y, 3, 3);
-
-        // --
-
-        _rotation = (rotation - 45f) % 360f;
-        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
-        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
-
-        graphics.fillOval(x, y, 3, 3);
-
-        _rotation = (rotation + 45f) % 360f;
-        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
-        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
-
-        graphics.fillOval(x, y, 3, 3);
-
-        // --
-
-        _rotation = (rotation - 135f) % 360f;
-        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
-        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
-
-        graphics.fillOval(x, y, 3, 3);
-
-        _rotation = (rotation + 135f) % 360f;
-        x = center.x + 4 - (int) (_distance * Math.sin(Math.toRadians(_rotation)));
-        y = center.y + 4 - (int) (_distance * Math.cos(Math.toRadians(_rotation)));
-
-        graphics.fillOval(x, y, 3, 3);
+        drawDockPoints(graphics);
     }
 
     public void setCenter(Point center) {
@@ -66,5 +28,32 @@ public class Walker {
 
     public void setRotation(float rotation) {
         this.rotation = rotation;
+    }
+
+    private void drawDockPoints(Graphics graphics) {
+
+        for (AbstractMap.SimpleEntry entryPair : dockPoints) {
+            DockPoint left = (DockPoint) entryPair.getKey();
+            left.draw(graphics, center, rotation);
+
+            DockPoint right = (DockPoint) entryPair.getValue();
+            right.draw(graphics, center, rotation);
+        }
+    }
+
+    private void setupDockPoints() {
+        DockPoint.Type[][] dockPointPairs = {
+                {DockPoint.Type.TOP_L, DockPoint.Type.TOP_R},
+                {DockPoint.Type.CENTER_L, DockPoint.Type.CENTER_R},
+                {DockPoint.Type.BOTTOM_L, DockPoint.Type.BOTTOM_R}
+        };
+
+        for (DockPoint.Type[] dockPoint : dockPointPairs) {
+            DockPoint left = new DockPoint(dockPoint[0]);
+            DockPoint right = new DockPoint(dockPoint[1]);
+
+            AbstractMap.SimpleEntry<DockPoint, DockPoint> entry = new AbstractMap.SimpleEntry<>(left, right);
+            dockPoints.add(entry);
+        }
     }
 }

@@ -19,7 +19,6 @@ public class Part {
     private float rotation;
     private int width = 10;
     private int height = 10;
-    private final int radius = 5;
 
     public Part(Point position, Type type) {
         setup(position, type);
@@ -35,9 +34,11 @@ public class Part {
 
         if (type == Type.BODY) {
             drawWalker(graphics);
-            int r = 4;
-            graphics.setColor(Color.WHITE);
-            graphics.fillOval(center.x + r, center.y + r, 2, 2);
+
+            // for test purposes only
+            //int r = 4;
+            //graphics.setColor(Color.WHITE);
+            //graphics.fillOval(center.x + r, center.y + r, 2, 2);
         }
     }
 
@@ -119,7 +120,7 @@ public class Part {
     }
 
     private void setupWalker() {
-        walker = new Walker(center, rotation,width / 2);
+        walker = new Walker(center, rotation);
     }
 
     private void drawWalker(Graphics graphics) {
