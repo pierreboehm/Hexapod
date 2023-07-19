@@ -1,7 +1,6 @@
 package pb.org.hexapoda.model;
 
 import pb.org.hexapoda.Simulator;
-
 import java.awt.*;
 import java.util.AbstractMap;
 
@@ -24,8 +23,10 @@ public class Part {
         setup(position, type);
     }
 
-    public Part(Point position, Type type, float rotation) {
-        setup(position, type, rotation);
+    public Part(Part parent, Type type, int distance) {
+        int x = parent.getCenter().x - (int)(distance * Math.sin(Math.toRadians(parent.getRotation())));
+        int y = parent.getCenter().y - (int)(distance * Math.cos(Math.toRadians(parent.getRotation())));
+        setup(new Point(x, y), type, parent.getRotation());
     }
 
     public void draw(Graphics graphics) {
@@ -40,14 +41,6 @@ public class Part {
             //graphics.setColor(Color.WHITE);
             //graphics.fillOval(center.x + r, center.y + r, 2, 2);
         }
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     public Point getCenter() {
@@ -89,16 +82,6 @@ public class Part {
     public void move() {
         center.x += width * Math.sin(Math.toRadians(rotation));
         center.y += height * Math.cos(Math.toRadians(rotation));
-    }
-
-    public void move(Part part) {
-        center = part.getCenter();
-        rotation = part.getRotation();
-    }
-
-    public void move(Point partCenter, float partRotation) {
-        center = partCenter;
-        rotation = partRotation;
     }
 
     private void setup(Point position, Type initialType) {
