@@ -42,6 +42,11 @@ public class Walker {
     }
 
     private void setupDockPoints() {
+        /*
+                TL -+- TR
+                CL -+- CR
+                BL -+- BR
+         */
         DockPoint.Type[][] dockPointPairs = {
                 {DockPoint.Type.TOP_L, DockPoint.Type.TOP_R},
                 {DockPoint.Type.CENTER_L, DockPoint.Type.CENTER_R},
