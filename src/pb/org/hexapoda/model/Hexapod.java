@@ -62,19 +62,11 @@ public class Hexapod {
         headPart.setDimension(9, 9);
         partList.add(headPart);
 
-        Point bodyPosition = new Point();
-        bodyPosition.x = headPart.getCenter().x - (int)(10 * Math.sin(Math.toRadians(headPart.getRotation())));
-        bodyPosition.y = headPart.getCenter().y - (int)(10 * Math.cos(Math.toRadians(headPart.getRotation())));
-
-        Part bodyPart = new Part(bodyPosition, Part.Type.BODY, headPart.getRotation());
+        Part bodyPart = new Part(headPart, Part.Type.BODY, 10);
         bodyPart.setDimension(10, 10);
         partList.add(bodyPart);
 
-        Point tailPosition = new Point();
-        tailPosition.x = bodyPart.getCenter().x - (int)(10 * Math.sin(Math.toRadians(bodyPart.getRotation())));
-        tailPosition.y = bodyPart.getCenter().y - (int)(10 * Math.cos(Math.toRadians(bodyPart.getRotation())));
-
-        Part tailPart = new Part(tailPosition, Part.Type.TAIL, bodyPart.getRotation());
+        Part tailPart = new Part(bodyPart, Part.Type.TAIL, 10);
         tailPart.setDimension(8, 8);
         partList.add(tailPart);
     }
